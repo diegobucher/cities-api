@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Cities Record</title>
+</h:head>
+
+<h:body>
+	<h:form id="formRecord">
+		<p:panel header="Cities record">
+			<p:panelGrid columns="2">
+				<p:outputLabel value="City name:" for="cityName" />
+				<p:inputText value="#{cityMB.city.dsCity}" maxlength="100" id="cityName" required="true" requiredMessage="Field City name is required" />
+
+				<p:commandButton value="Save" action="#{cityMB.save}" update="@form :formTable" />
+				<p:commandButton value="Cancel" action="#{cityMB.clean}" update="@form" process="@this" />
+			</p:panelGrid>
+
+			<p:messages />
+		</p:panel>
+	</h:form>
+
+	<h:form id="formTable">
+		<p:dataTable var="city" value="#{cityMB.cities}" emptyMessage="No records">
+			<p:column headerText="Id">#{city.id}</p:column>
+			<p:column headerText="City name" sortBy="#{city.dsCity}" filterBy="#{city.dsCity}" filterMatchMode="contains">#{city.dsCity}</p:column>
+
+			<p:column headerText="Actions">
+				<p:commandButton value="Modify" action="#{cityMB.load(city)}" process="@this" update=":formRecord" />
+				<p:commandButton value="Delete" action="#{cityMB.delete(city)}" process="@this" update="@form" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>
